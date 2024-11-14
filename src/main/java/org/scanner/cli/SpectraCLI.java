@@ -35,6 +35,7 @@ public class SpectraCLI implements Runnable {
 
     @Override
     public void run() {
+
         PortScanner portScanner;
 
         if (protocol.equalsIgnoreCase("TCP")) {
@@ -47,7 +48,7 @@ public class SpectraCLI implements Runnable {
         }
 
         ScanPortsUseCase useCase = new ScanPortsUseCase(portScanner);
-        List<ScanResult> results = useCase.scanPorts(host, startPort, endPort, threads);
+        List<ScanResult> results = useCase.executePortScan(host, startPort, endPort, threads);
 
         results.stream()
                 .filter(ScanResult::isOpen)
@@ -58,6 +59,7 @@ public class SpectraCLI implements Runnable {
     }
 
     public static void main(String[] args) {
+
         int exitCode = new CommandLine(new SpectraCLI()).execute(args);
         System.exit(exitCode);
     }
